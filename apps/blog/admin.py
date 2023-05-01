@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Post, Tag
+from .models import Post, Tag, BannedWord
 
 
 @admin.register(Post)
@@ -17,3 +17,10 @@ class TagAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
     ordering = ('name',)
+
+
+@admin.register(BannedWord)
+class BannedWordAdmin(admin.ModelAdmin):
+    list_display = ('word', 'reason')
+    search_fields = ('word',)
+    ordering = ('word',)

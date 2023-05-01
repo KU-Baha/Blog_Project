@@ -48,3 +48,23 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class BannedWord(models.Model):
+    word = models.CharField(
+        _('Word'),
+        max_length=50,
+        unique=True
+    )
+    reason = models.CharField(
+        _('Reason'),
+        max_length=200,
+        blank=True
+    )
+
+    def __str__(self):
+        return self.word
+
+    class Meta:
+        verbose_name = _('Banned word')
+        verbose_name_plural = _('Banned words')

@@ -27,7 +27,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 MY_APPS = [
-    'apps.accounts',
+    'apps.account',
     'apps.blog',
 ]
 

@@ -8,7 +8,6 @@ from .serializers import PostSerializer, TagSerializer
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [permissions.AllowAny]
 
 
 class TagViewSet(ModelViewSet):
