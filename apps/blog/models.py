@@ -68,3 +68,4 @@ class BannedWord(models.Model):
     class Meta:
         verbose_name = _('Banned word')
         verbose_name_plural = _('Banned words')
+
