@@ -22,15 +22,15 @@ install:
 .PHONY: createsuperuser
 createsuperuser:
 	@echo "Creating superuser..."
-	@. $(VENV_NAME)/bin/activate && python manage.py createsuperuser --email admin@example.com --username admin
+	@. $(VENV_NAME)/bin/activate && python manage.py createsuperuser
 
 .PHONY: migrate
 migrate:
 	@echo "Applying migrations..."
 	@. $(VENV_NAME)/bin/activate && python manage.py migrate
 
-.PHONY: makemigrations
-makemigrations:
+.PHONY: migrations
+migrations:
 	@echo "Creating new migrations..."
 	@. $(VENV_NAME)/bin/activate && python manage.py makemigrations
 
