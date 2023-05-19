@@ -1,6 +1,10 @@
-from django.urls import path
+from rest_framework import routers
 
+from .views import PostViewSet, TagViewSet
 
-urlpatterns = [
-    # path('category/<int:pk>/', views.CategoryDetailView.as_view(), name='category_detail'),
-]
+router = routers.DefaultRouter()
+
+router.register(r'posts', PostViewSet)
+router.register(r'tags', TagViewSet)
+
+urlpatterns = router.urls

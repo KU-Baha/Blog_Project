@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from .models import CustomeUser
+from .models import CustomUser
 
 
-@admin.register(CustomeUser)
+@admin.register(CustomUser)
 class CustomUserManagerAdmin(admin.ModelAdmin):
     list_display = (
         'email',

@@ -28,7 +28,7 @@ DEBUG = env_config('DEBUG', '')
 ALLOWED_HOSTS = env_config('ALLOWED_HOSTS', '').split(',')
 
 MY_APPS = [
-    'apps.account',
+    'apps.accounts',
     'apps.blog',
 ]
 
@@ -48,9 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
-
-INSTALLED_APPS += MY_APPS + THIRDS_PARTY_APPS
+] + MY_APPS + THIRDS_PARTY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -129,7 +127,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-AUTH_USER_MODEL = 'account.CustomUser'
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

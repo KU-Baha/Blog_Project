@@ -28,9 +28,6 @@ from rest_framework_simplejwt.views import (
 
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
-from apps.account.views import UserViewSet, GroupViewSet
-from apps.blog.views import PostViewSet, TagViewSet
-
 auth_urlpatterns = [
     path('', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
@@ -46,6 +43,8 @@ swagger_urlpatterns = [
 api_v1_urlpatterns = [
     path('schema/', include(swagger_urlpatterns)),
     path('token/', include(auth_urlpatterns)),
+    path('accounts-', include('apps.accounts.urls')),
+    path('blog-', include('apps.blog.urls')),
 ]
 
 urlpatterns = [
