@@ -1,6 +1,24 @@
 from rest_framework import serializers
+from mptt.templatetags.mptt_tags import cache_tree_children
 
-from .models import Post, Tag, BannedWord
+from .models import Category, Post, Tag, BannedWord
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    children = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Category
+        fields = (
+            'id',
+            'name',
+            'children',
+        )
+
+    def get_children(self, obj):
+        children = obj.get_children()
+        serializer = self.__class__(children, many=True)
+        return serializer.data
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -50,3 +68,13 @@ class PostSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(errors)
 
         return data
+
+
+class BannedWordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BannedWord
+        fields = (
+            'id',
+            'word',
+            'reason',
+        )
