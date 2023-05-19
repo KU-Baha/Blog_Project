@@ -31,29 +31,24 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, Spec
 from apps.account.views import UserViewSet, GroupViewSet
 from apps.blog.views import PostViewSet, TagViewSet
 
-router = routers.DefaultRouter()
-router.register('users', UserViewSet)
-router.register('groups', GroupViewSet)
-router.register('posts', PostViewSet)
-router.register('tags', TagViewSet)
+auth_urlpatterns = [
+    path('', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('verify/', TokenVerifyView.as_view(), name='token_verify'),
+]
+
+swagger_urlpatterns = [
+    path('', SpectacularAPIView.as_view(), name='schema'),
+    path('swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+]
+
+api_v1_urlpatterns = [
+    path('schema/', include(swagger_urlpatterns)),
+    path('token/', include(auth_urlpatterns)),
+]
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-
-    # Token Auth for DRF
-    path('api-token-auth/', views.obtain_auth_token),
-
-    # Simple JWT
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-
-    # YOUR PATTERNS
-    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-    # Optional UI:
-    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
-
-    path('', include(router.urls)),
+    path('api/v1/', include(api_v1_urlpatterns)),
 ]

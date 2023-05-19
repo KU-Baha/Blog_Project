@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from apps.account.managers import CustomUserManager
 
 
-class CustomeUser(AbstractUser):
+class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     address = models.CharField(max_length=100, null=True, blank=True)
     phone = models.CharField(max_length=20, null=True, blank=True)
