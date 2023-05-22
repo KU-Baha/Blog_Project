@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 import requests
 from bs4 import BeautifulSoup
 
+from apps.blog.models import Post
+
 
 class Command(BaseCommand):
     help = _('Parse data from external source')
@@ -26,8 +28,20 @@ class Command(BaseCommand):
         return soup
 
     def parse(self, date):
-        # date format: 2023-05-19
         response = self.get_html(f"{self.base_url}/?lable=8&date={date}&order=time")
         soup = self.get_soup(response)
         news_block = soup.find('div', {'class': 'Tag--articles'})
-        print(len(news_block.find_all('div', {'class': 'Tag--article'})))
+
+        news_list = news_block.find_all('div', {'class': 'Tag--article'})
+
+        for news in news_list:
+            post = Post()
+            news_url = news.find('a', {'class': 'ArticleItem--name'}).get('href')
+            news_img = news.find('img', {'class': 'ArticleItem--image-img'}).get('src')
+            post.logo = news_img
+            post.title = news.find('a', {'class': 'ArticleItem--name'}).text
+            post.content = 'Test'
+            post.save()
+
+
+    # def parse_article(self, url):

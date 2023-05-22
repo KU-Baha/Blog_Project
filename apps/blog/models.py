@@ -43,6 +43,9 @@ class Post(models.Model):
         blank=True,
         null=True
     )
+    logo = models.URLField(
+        _('Logo')
+    )
     pub_date = models.DateTimeField(
         _('Publication date'),
         auto_now_add=True
@@ -56,10 +59,11 @@ class Post(models.Model):
         blank=True,
         null=True
     )
-    author = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        verbose_name=_('Author'),
+    author = models.CharField(
+        _('Author'),
+        max_length=255,
+        blank=True,
+        null=True
     )
     tags = models.ManyToManyField(
         'Tag',
