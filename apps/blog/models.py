@@ -47,8 +47,7 @@ class Post(models.Model):
         _('Logo')
     )
     pub_date = models.DateTimeField(
-        _('Publication date'),
-        auto_now_add=True
+        _('Publication date')
     )
     update_date = models.DateTimeField(
         _('Update date'),
