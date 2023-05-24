@@ -29,7 +29,7 @@ ALLOWED_HOSTS = env_config('ALLOWED_HOSTS', '').split(',')
 
 MY_APPS = [
     'apps.accounts',
-    'apps.blog',
+    'apps.blog.apps.BlogConfig',
 ]
 
 THIRDS_PARTY_APPS = [
@@ -39,16 +39,17 @@ THIRDS_PARTY_APPS = [
     'drf_spectacular_sidecar',
     'rest_framework_simplejwt',
     'mptt',
+    'django_celery_results',
 ]
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-] + MY_APPS + THIRDS_PARTY_APPS
+                     'django.contrib.admin',
+                     'django.contrib.auth',
+                     'django.contrib.contenttypes',
+                     'django.contrib.sessions',
+                     'django.contrib.messages',
+                     'django.contrib.staticfiles',
+                 ] + MY_APPS + THIRDS_PARTY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -174,6 +175,11 @@ if DEBUG:
 
 MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware'] if DEBUG else []
 INSTALLED_APPS += ['debug_toolbar'] if DEBUG else []
+
+# Celery Configuration Options
+# Celery settings
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
 with contextlib.suppress(ImportError):
     from .local_settings import *

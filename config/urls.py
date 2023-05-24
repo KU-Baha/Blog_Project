@@ -17,9 +17,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from rest_framework import routers
-from rest_framework.authtoken import views
-
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -27,6 +24,8 @@ from rest_framework_simplejwt.views import (
 )
 
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+
+from apps.blog.views import RunParser
 
 auth_urlpatterns = [
     path('', TokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -50,4 +49,5 @@ api_v1_urlpatterns = [
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include(api_v1_urlpatterns)),
+    path('parser/<str:date>/', RunParser.as_view(), name='run_parser'),
 ]

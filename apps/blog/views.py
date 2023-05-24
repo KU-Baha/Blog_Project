@@ -1,9 +1,13 @@
+from django.views import View
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions
 
 from .models import Category, Post, Tag, BannedWord
 from .serializers import CategorySerializer, PostSerializer, TagSerializer, BannedWordSerializer
+from .tasks import create_banned_word
 
 
 class CategoryViewSet(ModelViewSet):
@@ -33,3 +37,9 @@ class BannedWordViewSet(ModelViewSet):
     queryset = BannedWord.objects.all()
     serializer_class = BannedWordSerializer
     permission_classes = [permissions.IsAdminUser]
+
+
+class RunParser(View):
+    def get(self, request, date):
+        create_banned_word.delay(date)
+        return JsonResponse({'status': 'ok'}, status=200)
