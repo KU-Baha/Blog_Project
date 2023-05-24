@@ -43,6 +43,11 @@ class Post(models.Model):
         blank=True,
         null=True
     )
+    category = models.ForeignKey(
+        'Category',
+        verbose_name=_('Category'),
+        on_delete=models.CASCADE
+    )
     logo = models.URLField(
         _('Logo')
     )
@@ -67,6 +72,11 @@ class Post(models.Model):
     tags = models.ManyToManyField(
         'Tag',
         verbose_name=_('Tags'),
+        blank=True
+    )
+    origin_url = models.URLField(
+        _('Origin url'),
+        null=True,
         blank=True
     )
 

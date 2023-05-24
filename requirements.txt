@@ -9,3 +9,4 @@ python_decouple==3.8
 psycopg2-binary==2.9.6
 requests==2.30.0
 beautifulsoup4==4.12.2
+djangorestframework-simplejwt==5.2.2
