@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env_config('SECRET_KEY', '')
+SECRET_KEY = env_config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env_config('DEBUG', '')
+DEBUG = env_config('DEBUG', cast=bool, default=False)
 
-ALLOWED_HOSTS = env_config('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = env_config('ALLOWED_HOSTS').split(',')
 
 MY_APPS = [
     'apps.accounts',
@@ -39,7 +39,6 @@ THIRDS_PARTY_APPS = [
     'drf_spectacular_sidecar',
     'rest_framework_simplejwt',
     'mptt',
-    'django_celery_results',
 ]
 
 INSTALLED_APPS = [
@@ -87,11 +86,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env_config('POSTGRES_DB', ''),
-        'USER': env_config('POSTGRES_USER', ''),
-        'PASSWORD': env_config('POSTGRES_PASSWORD', ''),
-        'HOST': env_config('POSTGRES_HOST', ''),
-        'PORT': 5432,
+        'NAME': env_config('POSTGRES_DB'),
+        'USER': env_config('POSTGRES_USER'),
+        'PASSWORD': env_config('POSTGRES_PASSWORD'),
+        'HOST': env_config('POSTGRES_HOST'),
+        'PORT': env_config('POSTGRES_PORT'),
     }
 }
 # Password validation
@@ -170,14 +169,15 @@ MPTT_ADMIN_LEVEL_INDENT = 20
 if DEBUG:
     import socket
 
-    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-    INTERNAL_IPS = [ip[:ip.rfind(".")] + ".1" for ip in ips] + ["127.0.0.1"]
+    # hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    # INTERNAL_IPS = [ip[:ip.rfind(".")] + ".1" for ip in ips] + ["127.0.0.1"]
 
 MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware'] if DEBUG else []
 INSTALLED_APPS += ['debug_toolbar'] if DEBUG else []
 
 # Celery Configuration Options
 # Celery settings
+
 CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
