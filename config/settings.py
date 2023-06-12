@@ -29,7 +29,8 @@ ALLOWED_HOSTS = env_config('ALLOWED_HOSTS').split(',')
 
 MY_APPS = [
     'apps.accounts',
-    'apps.blog.apps.BlogConfig',
+    'apps.blog',
+    'apps.chat',
 ]
 
 THIRDS_PARTY_APPS = [
@@ -42,6 +43,7 @@ THIRDS_PARTY_APPS = [
 ]
 
 INSTALLED_APPS = [
+                     'daphne',
                      'django.contrib.admin',
                      'django.contrib.auth',
                      'django.contrib.contenttypes',
@@ -79,6 +81,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+ASGI_APPLICATION = "config.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -178,8 +181,21 @@ INSTALLED_APPS += ['debug_toolbar'] if DEBUG else []
 # Celery Configuration Options
 # Celery settings
 
-CELERY_BROKER_URL = "redis://localhost:6379"
-CELERY_RESULT_BACKEND = "redis://localhost:6379"
+REDIS_HOST = env_config('REDIS_HOST')
+REDIS_PORT = env_config('REDIS_PORT')
+
+CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}/0"
+
+# Websocket settings
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(REDIS_HOST, REDIS_PORT)],
+        },
+    },
+}
 
 with contextlib.suppress(ImportError):
     from .local_settings import *

@@ -50,4 +50,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include(api_v1_urlpatterns)),
     path('parser/<str:date>/', RunParser.as_view(), name='run_parser'),
+    path('chat/', include('apps.chat.urls')),
 ]
