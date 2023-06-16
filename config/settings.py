@@ -41,6 +41,7 @@ THIRDS_PARTY_APPS = [
     'drf_spectacular_sidecar',
     'rest_framework_simplejwt',
     'mptt',
+    'django_filters',
 ]
 
 INSTALLED_APPS = [
@@ -146,6 +147,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ],
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'

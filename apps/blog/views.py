@@ -3,7 +3,8 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 
 from rest_framework.viewsets import ModelViewSet
-from rest_framework import permissions
+from rest_framework import permissions, filters as rest_filters
+from django_filters import rest_framework as filters
 
 from .models import Category, Post, Tag, BannedWord
 from .serializers import CategorySerializer, PostSerializer, TagSerializer, BannedWordSerializer
@@ -25,6 +26,24 @@ class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAdminUser]
+    filter_backends = [
+        filters.DjangoFilterBackend,
+        rest_filters.SearchFilter,
+        rest_filters.OrderingFilter,
+    ]
+    filterset_fields = [
+        'category',
+        'tags',
+    ]
+    search_fields = [
+        'title',
+        'content',
+        'author',
+    ]
+    ordering_fields = [
+        'pub_date',
+        'update_date',
+    ]
 
 
 class TagViewSet(ModelViewSet):

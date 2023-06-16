@@ -31,7 +31,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    # tags = TagSerializer(many=True, read_only=True)
+    category_name = serializers.CharField(source='category.name', read_only=True)
 
     class Meta:
         model = Post
@@ -39,11 +39,13 @@ class PostSerializer(serializers.ModelSerializer):
             'id',
             'title',
             'content',
+            'category',
+            'category_name',
+            'author',
+            'tags',
             'pub_date',
             'update_date',
             'delete_date',
-            'author',
-            # 'tags',
         )
 
     def validate(self, data):
