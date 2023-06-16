@@ -1,12 +1,6 @@
-from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render
+from rest_framework.views import APIView
 
 
-def index(request):
-    return render(request, "chat/index.html")
-
-
-def room(request, room_name):
-    return render(request, "chat/room.html", {"room_name": room_name})
+class ChatAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        pass

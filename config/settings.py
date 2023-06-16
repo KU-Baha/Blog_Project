@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import contextlib
+from datetime import timedelta
 from pathlib import Path
 from decouple import config as env_config
 
@@ -153,6 +154,11 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
 
+# Configure the JWT settings
+# SIMPLE_JWT = {
+#     'AUTH_HEADER_TYPES': ('Bearer',),
+# }
+
 # drf_spectacular config
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Your Project API',
@@ -164,6 +170,10 @@ SPECTACULAR_SETTINGS = {
     'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
     'REDOC_DIST': 'SIDECAR',
     # OTHER SETTINGS
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
 }
 
 MPTT_ADMIN_LEVEL_INDENT = 20
